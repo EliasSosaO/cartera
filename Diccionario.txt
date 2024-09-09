@@ -1,0 +1,48 @@
+Diccionario de Marcaje de Cartera
+--- Campos Origen
+'FechaProceso':Fecha de informacion
+'ContratoDispo': Contrado de disposicion
+'CodigoCliete': PU del cliente o codigo altamira
+'CuentaContable': Cuenta contable
+'IdProd': Codigo de producto comercial
+'IdSubprod': Codigo de subproducto comercial
+'Aplicativo': Aplicativo de origen
+'Oficina': CR de la disposicion
+'Divisa': Divisa en la que está hecha la operacion
+'SaldoPActual': Saldo puntual a fin de mes del mes actual
+'SaldoMActual': Saldo medio mensual del mes actual
+'SaldoPOActual': Saldo puntual a fin de mes moneda de origen del mes actual
+'SaldoMOActual': Saldo medio mensual en moneda origen del mes actual
+'SaldoPAnterior': Saldo puntual a fin de mes del mes anterior
+'SaldoMAnterior': Saldo medio mensual del mes anterior
+'SaldoPOAnterior': Saldo puntual a fin de mes moneda de origen del mes anterior
+'SaldoMOAnterior': Saldo medio mensual en moneda origen del mes anterior
+'FechaApertura': Fecha de apertura de la disposicion
+'FechaVencimiento': Fecha de vencimiento de la disposicion
+'FechaCancelacion': Fecha de cancelacion de la disposicion
+'ContratoMarcoFicticio': Contrato marco asignado ficticio
+'ContratoMarcoAplicativo': Contrato marco del aplicativo
+'ProductoCostos': Codigo de producto asignado por costos
+'MontoInicial': Monto inicial del credito
+'TipoTasa': Tipo de tasa pactada
+'FechaAperturaMarco': Fecha de apertura de la linea marco
+'FechaVencimientoMarco': Fecha de vencimiento de la linea marco
+'FechaCancelacionMarco': Fecha de cancelacion de la linea marco
+'NombreProducto': Nombre del producto comercial
+'GrupoCib': Grupo CIB al que pertenece el CustomerId
+
+--- Campos Calculados
+FechaMes: Campo calculado que hace referencia al mes actual
+VarSaldoM: SaldoMActual-SaldoMAnterior
+VarSaldoP: SaldoPActual-SaldoPAnterior
+VarSaldoMO: SaldoMOActual-SaldoMOAnterior
+VarSaldoPO: SaldoPOActual-SaldoPOAnterior
+Entrada: alta (Cuando la FechaApertura del ContratoDispo = FechaProceso)
+Salida: natural (Cuando FechaVencimiento = FechaCancelacion y FechaVencimiento = FechaMes), alta-baja (Cuando FechaApertura = FechaCancelacion y FechaApertura=FechaMes)
+        prepago (Cuando FechaCancelacion = FechaProceso, la FechaCancelacion < FechaVencimiento)
+Linea: comprometida (Cuando ContratoMarcoAplicativo esta vacio y ContratoMarcoFicticio no esta vacio)
+       no comprometida (Cuando ContratoMarcoFicticio esta vacio y ContratoMarcoAplicativo no esta vacio)
+       comprometida (Cuando ContratoMarcoFicticio no esta vacio y ContratoMarcoAplicativo no esta vacio)
+       no linea (Cuando ContratoMarcoFicticio esta vacio y ContratoMarcoAplicativo esta vacio)
+NewMoney: Tipo 1: Cuando FechaAperturaMarco es igual a FechaAperturaMarco y FechaAperturaMarco es igual a FechaMes
+          Tipo 2: Cuando Linea = 'no linea' y FechaApertura = FechaMes
